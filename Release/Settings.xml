@@ -1,0 +1,12 @@
+<Settings>
+	<genetic_alg_iterations>30</genetic_alg_iterations/>
+	<individ_number>50</individ_number>
+	<chromosome_size>10</chromosome_size>
+	<crossover_probability>0.6</crossover_probability>
+	<mutation_probability>0.01</mutation_probability>
+	<mutation_number>5</mutation_number>
+	<truncation>10</truncation>
+	<exchange_individs>4</exchange_individs>
+	<exchange_period>5</exchange_period>
+	<mutation_period>7</mutation_period>
+</Settings>

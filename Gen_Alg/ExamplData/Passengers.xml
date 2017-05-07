@@ -1,0 +1,126 @@
+<bus_stops>
+  
+  <bus_stop label ="0">
+    <time value="0">
+      <intention direction="1">2</intention>
+      <intention direction="2">3</intention>
+      <intention direction="3">5</intention>
+      <intention direction="4">2</intention>
+      <intention direction="5">1</intention>
+    </time>
+    <time value="2">
+      <intention direction="1">1</intention>
+      <intention direction="2">3</intention>
+      <intention direction="3">4</intention>
+      <intention direction="4">6</intention>
+      <intention direction="5">2</intention>
+    </time>
+    <time value="3">
+      <intention direction="2">2</intention>
+      <intention direction="3">1</intention>
+      <intention direction="4">3</intention>
+      <intention direction="5">9</intention>
+    </time>
+    <time value="4">
+      <intention direction="1">2</intention>
+      <intention direction="2">4</intention>
+      <intention direction="3">2</intention>
+      <intention direction="5">7</intention>
+    </time>
+    <time value="5">
+      <intention direction="1">4</intention>
+      <intention direction="2">10</intention>
+      <intention direction="3">5</intention>
+    </time>
+  </bus_stop>
+  
+  <bus_stop label ="1">
+    <time value="0">
+      <intention direction="2">3</intention>
+      <intention direction="3">5</intention>
+      <intention direction="4">2</intention>
+      <intention direction="5">1</intention>
+    </time>
+    <time value="2">
+      <intention direction="2">3</intention>
+      <intention direction="3">4</intention>
+      <intention direction="4">6</intention>
+      <intention direction="5">2</intention>
+    </time>
+    <time value="3">
+      <intention direction="2">2</intention>
+      <intention direction="3">1</intention>
+      <intention direction="4">3</intention>
+      <intention direction="5">9</intention>
+    </time>
+    <time value="4">
+      <intention direction="2">4</intention>
+      <intention direction="3">2</intention>
+      <intention direction="5">7</intention>
+    </time>
+    <time value="5">
+      <intention direction="2">10</intention>
+      <intention direction="3">5</intention>
+    </time>
+  </bus_stop>
+  
+  <bus_stop label ="2">
+    <time value="0">
+      <intention direction="3">3</intention>
+      <intention direction="4">1</intention>
+      <intention direction="5">2</intention>
+    </time>
+    <time value="2">
+      <intention direction="3">4</intention>
+      <intention direction="4">3</intention>
+      <intention direction="5">2</intention>
+    </time>
+    <time value="3">
+      <intention direction="3">4</intention>
+      <intention direction="4">2</intention>
+      <intention direction="5">3</intention>
+    </time>
+    <time value="4">
+      <intention direction="3">1</intention>
+      <intention direction="5">2</intention>
+    </time>
+    <time value="5">
+      <intention direction="3">1</intention>
+    </time>
+  </bus_stop>
+  
+  <bus_stop label ="3">
+    <time value="0">
+      <intention direction="4">7</intention>
+      <intention direction="5">4</intention>
+    </time>
+    <time value="2">
+      <intention direction="4">5</intention>
+      <intention direction="5">2</intention>
+    </time>
+    <time value="3">
+      <intention direction="4">1</intention>
+      <intention direction="5">5</intention>
+    </time>
+    <time value="4">
+      <intention direction="3">4</intention>
+      <intention direction="5">3</intention>
+    </time>
+    <time value="5">
+      <intention direction="3">2</intention>
+    </time>
+  </bus_stop>
+  
+  <bus_stop label ="4">
+    <time value="0">
+      <intention direction="5">1</intention>
+    </time>
+    <time value="2">
+      <intention direction="5">2</intention>
+    </time>
+    <time value="4">
+      <intention direction="5">7</intention>
+    </time>
+  </bus_stop>
+  
+</bus_stops>

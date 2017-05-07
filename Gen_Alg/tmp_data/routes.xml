@@ -1,0 +1,28 @@
+<routes>
+  <rout label="1">
+    <gap>0,1440</gap>
+    <stops>0,1,4,9,16,17,15,12,7</stops>
+    <bus label ="0" capacity="35" lambda="4"></bus>
+    <bus label ="1" capacity="25" lambda="3"></bus>
+    <bus label ="2" capacity="45" lambda="5"></bus>
+    <bus label ="3" capacity="15" lambda="2"></bus>
+  </rout>
+  <rout label="2">
+    <gap>0,1440</gap>
+    <stops>3,2,5,6,11,14,16,18,19</stops>
+    <bus label ="0" capacity="10" lambda="1"></bus>
+    <bus label ="1" capacity="15" lambda="2"></bus>
+    <bus label ="2" capacity="25" lambda="3"></bus>
+    <bus label ="3" capacity="35" lambda="4"></bus>
+    <bus label ="4" capacity="40" lambda="5"></bus>
+  </rout>
+  <rout label="3">
+    <gap>0,1440</gap>
+    <stops>8,9,10,11,12,13</stops>
+    <bus label ="0" capacity="10" lambda="1"></bus>
+    <bus label ="1" capacity="25" lambda="2"></bus>
+    <bus label ="2" capacity="35" lambda="3"></bus>
+    <bus label ="3" capacity="40" lambda="4"></bus>
+    <bus label ="4" capacity="35" lambda="5"></bus>
+  </rout>
+</routes>

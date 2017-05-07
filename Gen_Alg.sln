@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gen_Alg", "Gen_Alg\Gen_Alg.vcxproj", "{218FA275-136D-47D2-91BE-742131F7BF5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+		Release2|Win32 = Release2|Win32
+		Release2|x64 = Release2|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Debug|Win32.Build.0 = Debug|Win32
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Debug|x64.ActiveCfg = Debug|x64
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Debug|x64.Build.0 = Debug|x64
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Release|Win32.ActiveCfg = Release|Win32
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Release|Win32.Build.0 = Release|Win32
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Release|x64.ActiveCfg = Release|x64
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Release|x64.Build.0 = Release|x64
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Release2|Win32.ActiveCfg = Release2|Win32
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Release2|Win32.Build.0 = Release2|Win32
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Release2|x64.ActiveCfg = Release2|x64
+		{218FA275-136D-47D2-91BE-742131F7BF5B}.Release2|x64.Build.0 = Release2|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

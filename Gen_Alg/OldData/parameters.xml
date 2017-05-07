@@ -1,0 +1,14 @@
+<parameters>
+  <genetic_alg_iterations>100</genetic_alg_iterations>
+  <individ_number>100</individ_number>
+  <chromosome_size>10</chromosome_size>
+  <crossover_probability>0.6</crossover_probability>
+  <mutation_probability>0.01</mutation_probability>
+  <mutation_number>5</mutation_number>
+  <truncation>20</truncation>
+  <exchange_period>4</exchange_period>
+  <exchange_individs>10</exchange_individs>
+  <mutation_period>16</mutation_period>
+  <fine_for_remain_passanger>200</fine_for_remain_passanger>
+  <fine_for_lag>5</fine_for_lag>
+</parameters>
