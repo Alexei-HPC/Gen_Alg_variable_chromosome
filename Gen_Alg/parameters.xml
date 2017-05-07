@@ -1,6 +1,6 @@
 <parameters>
   <genetic_alg_iterations>10</genetic_alg_iterations>
-  <individ_number>5</individ_number>
+  <individ_number>25</individ_number>
   <chromosome_size>10</chromosome_size>
   <crossover_probability>0.6</crossover_probability>
   <mutation_probability>0.01</mutation_probability>

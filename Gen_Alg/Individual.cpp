@@ -114,7 +114,7 @@ int Individual::Mutation(double probability, int mut_number)
 			if(chromosome_pointer == mutation_points[pointer])
 			{
 				chromosome[chromosome_pointer] = (double)rand()/RAND_MAX < Pm ? Getrandvalue(routs_gaps[i].second.first, routs_gaps[i].second.second) : chromosome[chromosome_pointer];
-				pointer++;
+				pointer = ++pointer % mut_number;
 			}
 			chromosome_pointer++;
 		}

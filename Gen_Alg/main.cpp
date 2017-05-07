@@ -924,17 +924,17 @@ int main(int argc, char* argv[])
 	Parameters_ parameters;//Структура для хранения параметров алгоритма
 	//parameters.parameters_filename = "parameters.xml";
 	//"parameters.xml"
-	if (argc !=4 )// если передаем аргументы, то argc будет больше 1(в зависимости от кол-ва аргументов)
+	/*if (argc !=4 )// если передаем аргументы, то argc будет больше 1(в зависимости от кол-ва аргументов)
 	{
 		cout << "Error! Wrong arguments number." << endl;
 		MPI_Finalize();
 		return 0;
 	}
-	else
+	else*/
 	{
-		parameters.parameters_filename = argv[1];
-		parameters.times_filename = argv[2];
-		parameters.uni_path = argv[3];
+		parameters.parameters_filename = "parameters.xml";
+		parameters.times_filename = "MinimalTimes.xml";
+		parameters.uni_path = "";
 		//cout<<"parameter: "<<parameters.parameters_filename<<endl;
 		//cout<<"times: "<<parameters.times_filename<<endl;
 	}
