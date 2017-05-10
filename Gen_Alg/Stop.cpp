@@ -89,7 +89,7 @@ Stop::Stop(unsigned long pbus_stop_label)
 //	return 0;
 //}
 
-int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int curent_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus)
+int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int curent_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time)
 {
 	//cout<<"landLoadPassangers started"<<endl;
 	//Пассажиры выходят на нужной остановке
@@ -110,6 +110,11 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 		{
 			bus_pussangers[i].arrived_time = curent_time;
 			free_places++;
+			
+			int passenger_system_time = curent_time - bus_pussangers[i].come_time;
+			if ( max_passenger_time < passenger_system_time)
+				max_passenger_time = passenger_system_time;
+
 			bus_pussangers.erase(bus_pussangers.begin() + i);
 			i--;
 		}

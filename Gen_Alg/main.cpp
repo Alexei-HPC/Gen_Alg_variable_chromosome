@@ -23,6 +23,7 @@ using namespace std;
 
 int com_size;
 int proc_rank;
+int max_passenger_time = 0;
 
 //typedef struct //Параметры проведения экспериментов
 //{
@@ -765,7 +766,7 @@ int MakeEvent(Event ev, Buses &buses, vector <Stop> &stops, Parameters_ paramete
 					{
 					events_info<<"\tdir: "<<buses.buses[j].intentions[w].first<<" pas num: "<<buses.buses[j].intentions[w].second<<endl;
 					}*/
-					stops[i].landLoadPassangers(/*buses.buses[j].intentions*/ buses.buses[j].passangers, buses.buses[j].free_places, ev.time, buses.buses[j].bus_stops, parameters, buses.buses[j]);//Выполняем процедуру высадки посадки пассажиров
+					stops[i].landLoadPassangers(/*buses.buses[j].intentions*/ buses.buses[j].passangers, buses.buses[j].free_places, ev.time, buses.buses[j].bus_stops, parameters, buses.buses[j], max_passenger_time);//Выполняем процедуру высадки посадки пассажиров
 					//events_info<<"bus intentions after. Free places: "<<buses.buses[j].free_places<<endl;
 					//for(int w = 0; w < buses.buses[j].intentions.size(); w++)
 					//{
@@ -1004,6 +1005,7 @@ int main(int argc, char* argv[])
 		for(int ind = 0; ind < population.population_size; ind++)//Нахождение значения фитнесс функци для каждого индивида
 		{
 			population.individuals[ind].fitness_value = FitnessFunktion(parameters, mindrivetime, minbcost, routes, population.individuals[ind], stops);
+				cout<<"max_passenger_time:   "<<max_passenger_time<<endl;
 		}
 
 		/*Вывод данных в выходной файл*/
