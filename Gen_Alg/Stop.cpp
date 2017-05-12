@@ -89,7 +89,7 @@ Stop::Stop(unsigned long pbus_stop_label)
 //	return 0;
 //}
 
-int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int curent_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time)
+int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int curent_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time, int &max_waiting_time)
 {
 	//cout<<"landLoadPassangers started"<<endl;
 	//Пассажиры выходят на нужной остановке
@@ -112,8 +112,12 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 			free_places++;
 			
 			int passenger_system_time = curent_time - bus_pussangers[i].come_time;
-			if ( max_passenger_time < passenger_system_time)
+			int passenger_waiting_time = bus_pussangers[i].bus_enter_time - bus_pussangers[i].come_time;
+			if (max_passenger_time < passenger_system_time)			
 				max_passenger_time = passenger_system_time;
+			if (max_waiting_time < passenger_waiting_time)
+				max_waiting_time = passenger_waiting_time;
+			
 
 			bus_pussangers.erase(bus_pussangers.begin() + i);
 			i--;
@@ -133,9 +137,10 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 			if(curent_time - passangers[p].come_time > parameters.wt_max)
 			{
 				bus.passangers_wt_fines += parameters.rm_restful*(parameters.wt_restful - parameters.wt_no_fine) + parameters.rm_upto_max*(parameters.wt_max - parameters.wt_restful) + parameters.f_refuse;
+				passangers.erase(passangers.begin() + p);
+				p--;
 			}
-			passangers.erase(passangers.begin() + p);
-			p--;
+			
 		}
 
 		//Устанавливаем итератор на текущую остановку

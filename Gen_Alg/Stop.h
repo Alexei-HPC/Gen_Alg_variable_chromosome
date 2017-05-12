@@ -38,7 +38,7 @@ public:
 	vector<dir_td> vdensity; //ѕары < направление вектов <врем€_плотность>>
 
 	int Recalc(int current_time); //ѕереращет количества пассажиров на текущей остановке
-	int landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int current_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time);	//¬ысадка и посадка пассажиров на остановке
+	int landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int current_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time, int &max_waiting_time);	//¬ысадка и посадка пассажиров на остановке
 	int RemainPassangers(); //¬озвращает количество пассажиров пришедших до конца дн€ после последнего автобуса
 	int Print();	//¬ывод информации о остановке
 	Stop(void);
