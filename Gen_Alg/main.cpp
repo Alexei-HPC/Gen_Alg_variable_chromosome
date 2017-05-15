@@ -963,9 +963,17 @@ int main(int argc, char* argv[])
 
 	EdgeCost minbcost(parameters.costs_filename, 9);	//—читываем стоимости прохождени€ автобусов по ребрам
 	MinimalDriveTime mindrivetime(parameters.times_filename, 3);	//—читываем времена проходжени€ автобусов по ребрам
-	Routes routes(parameters.routes_filename);	//—читываем информацию о маршрутах
+	Routes routes(parameters.routes_filename);	//—читываем информацию о маршрутах	
+	
+	bus bs = routes.routes[routes.routes.size() - 1]
+		.buses[routes.routes[routes.routes.size() - 1].buses.size() - 1];
+	bs.bus_label++;
+	routes.routes[routes.routes.size() - 1].buses.push_back(bs);
+	routes.routes[routes.routes.size() - 1].trip_numbers++;
+	
 	vector< pair <int, pair<int, int>>> routs_gaps;
 	routes.GetGaps(routs_gaps);
+
 	int ch_size = routes.ChromosomeSize();
 	parameters.chromosome_size = ch_size;
 
