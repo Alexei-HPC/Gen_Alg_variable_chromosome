@@ -1001,8 +1001,10 @@ int main(int argc, char* argv[])
 	MPI_Barrier(MPI_COMM_WORLD);
 	cout<<"procrank: "<<proc_rank<<" Working started."<<endl<<endl;
 
-	for(int iter = 1; iter <= parameters.genetic_alg_iterations; iter++)//Шаги генетического алгоритма
+	for(int iter = 1; iter <= parameters.genetic_alg_iterations + 1000; iter++)//Шаги генетического алгоритма
 	{
+		max_passenger_time = 0;
+		max_waiting_time = 0;
 		cout<<iter<<" iteration of GA started. ProcRank: "<<proc_rank<<endl;
 		if(iter % parameters.mutation_period  == 0)//Мутация
 		{
