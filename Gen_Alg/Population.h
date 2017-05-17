@@ -13,6 +13,7 @@ public:
 
 	Population(void);
 	Population(int pop_size, int ch_size, vector< pair <int, pair<int, int>>> routs_gaps);
+	int Population_mod(Population population, int pop_size, int ch_size, vector< pair <int, pair<int, int>>> routs_gaps);
 	int Mutation(double probability, int mut_number);//Мутация
 	int Crossover(double probability);//Скрещивание
 	int PrintPopulation(void);//Вывод генов каждого индивида популяции

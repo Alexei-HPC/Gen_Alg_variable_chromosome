@@ -24,6 +24,13 @@ Population::Population(int pop_size, int ch_size, vector< pair <int, pair<int, i
 	}
 }
 
+int Population::Population_mod(Population population, int pop_size, int ch_size, vector<pair<int, pair<int, int>>> routs_gaps)
+{
+
+
+	return 0;
+}
+
 int Population::Mutation(double probability, int mut_number)
 {
 	for(int i = 0; i < population_size; i++)//Мутацию первой строки не проводим

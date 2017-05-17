@@ -968,13 +968,11 @@ int main(int argc, char* argv[])
 	MinimalDriveTime mindrivetime(parameters.times_filename, 3);	//Считываем времена проходжения автобусов по ребрам
 	Routes routes(parameters.routes_filename);	//Считываем информацию о маршрутах	
 	
-	// Увеличение длины хромосомы
-	bus bs = routes.routes[routes.routes.size() - 1]
-		.buses[routes.routes[routes.routes.size() - 1].buses.size() - 1];
-	bs.bus_label++;
-	routes.routes[routes.routes.size() - 1].buses.push_back(bs);
-	routes.routes[routes.routes.size() - 1].trip_numbers++;
 	
+
+	vector <Stop> stops;
+	LoadStops(parameters.density_filename, stops);	//Считываем информацию о приходе пассажиров на остановку
+
 	vector< pair <int, pair<int, int>>> routs_gaps;
 	routes.GetGaps(routs_gaps);
 
@@ -982,10 +980,7 @@ int main(int argc, char* argv[])
 	parameters.chromosome_size = ch_size;
 
 	Population population(parameters.individ_number, ch_size, routs_gaps);//Инициализация популяции
-	//population.PrintPopulation();
-
-	vector <Stop> stops;
-	LoadStops(parameters.density_filename, stops);	//Считываем информацию о приходе пассажиров на остановку
+																		  //population.PrintPopulation();
 
 	if(proc_rank == 0)//Замер времени начала работы алгоритма
 	{
@@ -1005,57 +1000,94 @@ int main(int argc, char* argv[])
 	MPI_Barrier(MPI_COMM_WORLD);
 	cout<<"procrank: "<<proc_rank<<" Working started."<<endl<<endl;
 
-	for(int iter = 1; iter <= parameters.genetic_alg_iterations; iter++)//Шаги генетического алгоритма
+
+
+
 	{
-		
-		cout<<iter<<" iteration of GA started. ProcRank: "<<proc_rank<<endl;
-		if(iter % parameters.mutation_period  == 0)//Мутация
+		//место начала работы алгоритса с переменной длиной хромосомы
 		{
-			population.Mutation(parameters.mutation_probability, parameters.mutation_number);
-			cout<<"Mutation was carried"<<endl;
-		}
-		population.Crossover(parameters.crossover_probability);//Скрещивание
-		cout<<"Crossing was carried"<<endl;
-		for(int ind = 0; ind < population.population_size; ind++)//Нахождение значения фитнесс функци для каждого индивида
-		{
-			max_passenger_time = 0;
-			max_waiting_time = 0;
 
-			population.individuals[ind].fitness_value = FitnessFunktion(parameters, mindrivetime, minbcost, routes, population.individuals[ind], stops);
-			population.individuals[ind].max_passenger_time = max_passenger_time;
-			population.individuals[ind].max_waiting_time = max_waiting_time;
-				cout<<"max_waiting_time/max_passenger_time:   "<< max_waiting_time<<"	"<<max_passenger_time<<endl;
-		}
 
-		/*Вывод данных в выходной файл*/
-		/*file_ff_by_ind<<"iteration: "<<iter<<endl;
-		for(int k = 0; k < population.population_size; k++)
-		{
-		for(int s = 0; s < population.chromosome_size; s++)
-		{
-		file_ff_by_ind<<population.individuals[k].chromosome[s]<<" ";
-		}
-		file_ff_by_ind<<population.individuals[k].fitness_value;
-		file_ff_by_ind<<endl;
-		}*/
 
-		double aver_ff = 0;
-		for(int k = 0; k < population.population_size; k++)//Вычиление среднего значения фитнесс функции
-		{
-			aver_ff += population.individuals[k].fitness_value;
-		}
-		aver_ff = (double)aver_ff/parameters.individ_number;
-		file_aver_ff<<iter<<" "<<aver_ff<<endl;
-		cout<<"Average fitness function "<<aver_ff<<endl;
 
-		if( iter % parameters.exchange_period  == 0)//Кольцевой обмен
-		{
-			Exchange(population, parameters);
-			cout<<"Circular exchange was carried"<<endl;
+
+
+
+
+
+
+			for (int iter = 1; iter <= parameters.genetic_alg_iterations; iter++)//Шаги генетического алгоритма
+			{
+
+				cout << iter << " iteration of GA started. ProcRank: " << proc_rank << endl;
+				if (iter % parameters.mutation_period == 0)//Мутация
+				{
+					population.Mutation(parameters.mutation_probability, parameters.mutation_number);
+					cout << "Mutation was carried" << endl;
+				}
+				population.Crossover(parameters.crossover_probability);//Скрещивание
+				cout << "Crossing was carried" << endl;
+				for (int ind = 0; ind < population.population_size; ind++)//Нахождение значения фитнесс функци для каждого индивида
+				{
+					max_passenger_time = 0;
+					max_waiting_time = 0;
+
+					population.individuals[ind].fitness_value = FitnessFunktion(parameters, mindrivetime, minbcost, routes, population.individuals[ind], stops);
+					population.individuals[ind].max_passenger_time = max_passenger_time;
+					population.individuals[ind].max_waiting_time = max_waiting_time;
+					cout << "max_waiting_time/max_passenger_time:   " << max_waiting_time << "	" << max_passenger_time << endl;
+				}
+
+				/*Вывод данных в выходной файл*/
+				/*file_ff_by_ind<<"iteration: "<<iter<<endl;
+				for(int k = 0; k < population.population_size; k++)
+				{
+				for(int s = 0; s < population.chromosome_size; s++)
+				{
+				file_ff_by_ind<<population.individuals[k].chromosome[s]<<" ";
+				}
+				file_ff_by_ind<<population.individuals[k].fitness_value;
+				file_ff_by_ind<<endl;
+				}*/
+
+				double aver_ff = 0;
+				for (int k = 0; k < population.population_size; k++)//Вычиление среднего значения фитнесс функции
+				{
+					aver_ff += population.individuals[k].fitness_value;
+				}
+				aver_ff = (double)aver_ff / parameters.individ_number;
+				file_aver_ff << iter << " " << aver_ff << endl;
+				cout << "Average fitness function " << aver_ff << endl;
+
+				if (iter % parameters.exchange_period == 0)//Кольцевой обмен
+				{
+					Exchange(population, parameters);
+					cout << "Circular exchange was carried" << endl;
+				}
+				population.Selection(parameters.truncation);
+				cout << "There was a selection" << endl;
+				cout << iter << " iteration of GA finished. ProcRank: " << proc_rank << endl;
+			}
+
+			// Запись полученной популяции с статистическую таблицу решений
+			//population_table.Save(population);
+
+			// Увеличение длины хромосомы
+			bus bs = routes.routes[routes.routes.size() - 1]
+				.buses[routes.routes[routes.routes.size() - 1].buses.size() - 1];
+			bs.bus_label++;
+			routes.routes[routes.routes.size() - 1].buses.push_back(bs);
+			routes.routes[routes.routes.size() - 1].trip_numbers++;
+
+			vector< pair <int, pair<int, int>>> routs_gaps;
+			routes.GetGaps(routs_gaps);
+
+			int ch_size = routes.ChromosomeSize();
+			parameters.chromosome_size = ch_size;
+
+			//Population population_mod(population, parameters.individ_number, ch_size, routs_gaps);//Модификация популяции
+																				  //population.PrintPopulation();
 		}
-		population.Selection(parameters.truncation);
-		cout<<"There was a selection"<<endl;
-		cout<<iter<<" iteration of GA finished. ProcRank: "<<proc_rank<<endl;
 	}
 	file_aver_ff.close();
 	//file_ff_by_ind.close();
