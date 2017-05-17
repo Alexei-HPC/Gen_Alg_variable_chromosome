@@ -18,6 +18,8 @@ public:
 	int * chromosome; //Хромосома
 	int chromosome_size; //Длина хромосомы
 	double fitness_value; //Значение приспособленности особи
+	int max_passenger_time;
+	int max_waiting_time;
 	vector< pair <int, pair<int, int>>> routs_gaps; //границы значений генов на каждом из участков хромосомы
 
 	Individual(void);

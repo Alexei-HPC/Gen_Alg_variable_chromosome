@@ -109,15 +109,12 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 		if(bus_pussangers[i].direction == bus_stop_label)
 		{
 			bus_pussangers[i].arrived_time = curent_time;
-			free_places++;
-			
+			free_places++;					
+
 			int passenger_system_time = curent_time - bus_pussangers[i].come_time;
-			int passenger_waiting_time = bus_pussangers[i].bus_enter_time - bus_pussangers[i].come_time;
-			if (max_passenger_time < passenger_system_time)			
+			if (max_passenger_time < passenger_system_time)
 				max_passenger_time = passenger_system_time;
-			if (max_waiting_time < passenger_waiting_time)
-				max_waiting_time = passenger_waiting_time;
-			
+
 
 			bus_pussangers.erase(bus_pussangers.begin() + i);
 			i--;
@@ -136,6 +133,11 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 		{
 			if(curent_time - passangers[p].come_time > parameters.wt_max)
 			{
+				
+				int passenger_waiting_time = curent_time - passangers[p].come_time;
+				if (max_waiting_time < passenger_waiting_time)
+					max_waiting_time = passenger_waiting_time;
+
 				bus.passangers_wt_fines += parameters.rm_restful*(parameters.wt_restful - parameters.wt_no_fine) + parameters.rm_upto_max*(parameters.wt_max - parameters.wt_restful) + parameters.f_refuse;
 				passangers.erase(passangers.begin() + p);
 				p--;

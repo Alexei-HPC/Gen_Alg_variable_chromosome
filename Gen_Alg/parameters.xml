@@ -1,11 +1,11 @@
 <parameters>
-  <genetic_alg_iterations>10</genetic_alg_iterations>
+  <genetic_alg_iterations>1000</genetic_alg_iterations>
   <individ_number>25</individ_number>
   <chromosome_size>10</chromosome_size>
   <crossover_probability>0.6</crossover_probability>
   <mutation_probability>0.01</mutation_probability>
   <mutation_number>5</mutation_number>
-  <truncation>20</truncation>
+  <truncation>8</truncation>
   <exchange_period>4</exchange_period>
   <exchange_individs>10</exchange_individs>
   <mutation_period>3</mutation_period>

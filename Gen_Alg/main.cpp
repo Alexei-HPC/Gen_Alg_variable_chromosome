@@ -734,9 +734,12 @@ Individual GetBestSol(Population population)//Поиск лучшего решения среди всех у
 		tempind.chromosome[i] = bestsol[i];
 	}
 	tempind.fitness_value = bestsol[size - 1];
+	tempind.max_waiting_time = max_waiting_time;
+	tempind.max_passenger_time = max_passenger_time;
 
 	delete [] tempchromosome;
 	delete [] bestsol;
+	
 
 	return tempind;
 }
@@ -965,6 +968,7 @@ int main(int argc, char* argv[])
 	MinimalDriveTime mindrivetime(parameters.times_filename, 3);	//Считываем времена проходжения автобусов по ребрам
 	Routes routes(parameters.routes_filename);	//Считываем информацию о маршрутах	
 	
+	// Увеличение длины хромосомы
 	bus bs = routes.routes[routes.routes.size() - 1]
 		.buses[routes.routes[routes.routes.size() - 1].buses.size() - 1];
 	bs.bus_label++;
@@ -1001,10 +1005,9 @@ int main(int argc, char* argv[])
 	MPI_Barrier(MPI_COMM_WORLD);
 	cout<<"procrank: "<<proc_rank<<" Working started."<<endl<<endl;
 
-	for(int iter = 1; iter <= parameters.genetic_alg_iterations + 1000; iter++)//Шаги генетического алгоритма
+	for(int iter = 1; iter <= parameters.genetic_alg_iterations; iter++)//Шаги генетического алгоритма
 	{
-		max_passenger_time = 0;
-		max_waiting_time = 0;
+		
 		cout<<iter<<" iteration of GA started. ProcRank: "<<proc_rank<<endl;
 		if(iter % parameters.mutation_period  == 0)//Мутация
 		{
@@ -1015,7 +1018,12 @@ int main(int argc, char* argv[])
 		cout<<"Crossing was carried"<<endl;
 		for(int ind = 0; ind < population.population_size; ind++)//Нахождение значения фитнесс функци для каждого индивида
 		{
+			max_passenger_time = 0;
+			max_waiting_time = 0;
+
 			population.individuals[ind].fitness_value = FitnessFunktion(parameters, mindrivetime, minbcost, routes, population.individuals[ind], stops);
+			population.individuals[ind].max_passenger_time = max_passenger_time;
+			population.individuals[ind].max_waiting_time = max_waiting_time;
 				cout<<"max_waiting_time/max_passenger_time:   "<< max_waiting_time<<"	"<<max_passenger_time<<endl;
 		}
 
@@ -1077,6 +1085,7 @@ int main(int argc, char* argv[])
 					SolutionFile<<res_individ.chromosome[counter]<<" ";
 					counter++;
 				}
+				cout << "\n" << res_individ.max_waiting_time << "   " << res_individ.max_passenger_time << endl;
 				cout<<"\n";
 			}
 
