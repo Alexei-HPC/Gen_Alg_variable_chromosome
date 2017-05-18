@@ -1000,7 +1000,7 @@ int main(int argc, char* argv[])
 	MPI_Barrier(MPI_COMM_WORLD);
 	cout<<"procrank: "<<proc_rank<<" Working started."<<endl<<endl;
 
-
+	vector <Individual> best_solutions;
 
 
 	{
@@ -1016,7 +1016,7 @@ int main(int argc, char* argv[])
 
 
 
-			for (int iter = 1; iter <= parameters.genetic_alg_iterations; iter++)//Шаги генетического алгоритма
+			for (int iter = 1; iter <= 10; iter++)//Шаги генетического алгоритма
 			{
 
 				cout << iter << " iteration of GA started. ProcRank: " << proc_rank << endl;
@@ -1069,8 +1069,9 @@ int main(int argc, char* argv[])
 				cout << iter << " iteration of GA finished. ProcRank: " << proc_rank << endl;
 			}
 
-			// Запись полученной популяции с статистическую таблицу решений
-			//population_table.Save(population);
+			// Запись лучшего решения в статистическую таблицу решений
+			Individual res_individ(GetBestSol(population));
+			best_solutions.push_back(res_individ);
 
 			// Увеличение длины хромосомы
 			bus bs = routes.routes[routes.routes.size() - 1]
@@ -1084,9 +1085,9 @@ int main(int argc, char* argv[])
 
 			int ch_size = routes.ChromosomeSize();
 			parameters.chromosome_size = ch_size;
-
-			//Population population_mod(population, parameters.individ_number, ch_size, routs_gaps);//Модификация популяции
-																				  //population.PrintPopulation();
+			population.PrintPopulation();
+			population = population.Population_mod(parameters.individ_number, ch_size, routs_gaps);//Модификация популяции
+																				  population.PrintPopulation();
 		}
 	}
 	file_aver_ff.close();

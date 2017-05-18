@@ -24,11 +24,19 @@ Population::Population(int pop_size, int ch_size, vector< pair <int, pair<int, i
 	}
 }
 
-int Population::Population_mod(Population population, int pop_size, int ch_size, vector<pair<int, pair<int, int>>> routs_gaps)
+Population Population::Population_mod(int pop_size, int ch_size, vector<pair<int, pair<int, int>>> routs_gaps)
 {
-
-
-	return 0;
+	Population tmp_population(pop_size, ch_size, routs_gaps);//»нициализаци€ попул€ции
+	for (int i = 0; i < population_size; i++)//«амена старой попул€ции новой попул€цией
+	{
+		for (int j = 0; j < chromosome_size - 1; j++)
+		{
+			tmp_population.individuals[i].chromosome[j] = individuals[i].chromosome[j] * (ch_size - 1) / ch_size;
+		}
+//		tmp_population.individuals[i].chromosome[chromosome_size - 1] = Getrandvalue(routs_gaps[i].second.first, routs_gaps[i].second.second);
+	}
+	
+	return tmp_population;
 }
 
 int Population::Mutation(double probability, int mut_number)
