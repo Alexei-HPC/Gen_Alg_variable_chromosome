@@ -113,55 +113,5 @@
     <bus label ="108" capacity="35" lambda="3"></bus>
     <bus label ="109" capacity="40" lambda="4"></bus>
     <bus label ="110" capacity="35" lambda="5"></bus>
-	<bus label ="111" capacity="25" lambda="1"></bus>
-	<bus label ="112" capacity="25" lambda="2"></bus>
-    <bus label ="113" capacity="35" lambda="3"></bus>
-    <bus label ="114" capacity="40" lambda="4"></bus>
-    <bus label ="115" capacity="35" lambda="5"></bus>
-	<bus label ="116" capacity="35" lambda="5"></bus>
-	<bus label ="117" capacity="25" lambda="2"></bus>
-    <bus label ="118" capacity="35" lambda="3"></bus>
-    <bus label ="119" capacity="40" lambda="4"></bus>
-    <bus label ="111" capacity="35" lambda="5"></bus>
-	<bus label ="121" capacity="25" lambda="1"></bus>
-	<bus label ="122" capacity="25" lambda="2"></bus>
-    <bus label ="123" capacity="35" lambda="3"></bus>
-    <bus label ="124" capacity="40" lambda="4"></bus>
-    <bus label ="125" capacity="35" lambda="5"></bus>
-	<bus label ="126" capacity="35" lambda="5"></bus>
-	<bus label ="127" capacity="25" lambda="2"></bus>
-    <bus label ="128" capacity="35" lambda="3"></bus>
-    <bus label ="129" capacity="40" lambda="4"></bus>
-    <bus label ="121" capacity="35" lambda="5"></bus>
-	<bus label ="131" capacity="25" lambda="1"></bus>
-	<bus label ="132" capacity="25" lambda="2"></bus>
-    <bus label ="133" capacity="35" lambda="3"></bus>
-    <bus label ="134" capacity="40" lambda="4"></bus>
-    <bus label ="135" capacity="35" lambda="5"></bus>
-	<bus label ="136" capacity="35" lambda="5"></bus>
-	<bus label ="137" capacity="25" lambda="2"></bus>
-    <bus label ="138" capacity="35" lambda="3"></bus>
-    <bus label ="139" capacity="40" lambda="4"></bus>
-    <bus label ="131" capacity="35" lambda="5"></bus>
-	<bus label ="141" capacity="25" lambda="1"></bus>
-	<bus label ="142" capacity="25" lambda="2"></bus>
-    <bus label ="143" capacity="35" lambda="3"></bus>
-    <bus label ="144" capacity="40" lambda="4"></bus>
-    <bus label ="145" capacity="35" lambda="5"></bus>
-	<bus label ="146" capacity="35" lambda="5"></bus>
-	<bus label ="147" capacity="25" lambda="2"></bus>
-    <bus label ="148" capacity="35" lambda="3"></bus>
-    <bus label ="149" capacity="40" lambda="4"></bus>
-    <bus label ="141" capacity="35" lambda="5"></bus>
-	<bus label ="151" capacity="25" lambda="1"></bus>
-	<bus label ="152" capacity="25" lambda="2"></bus>
-    <bus label ="153" capacity="35" lambda="3"></bus>
-    <bus label ="154" capacity="40" lambda="4"></bus>
-    <bus label ="155" capacity="35" lambda="5"></bus>
-	<bus label ="156" capacity="35" lambda="5"></bus>
-	<bus label ="157" capacity="25" lambda="2"></bus>
-    <bus label ="158" capacity="35" lambda="3"></bus>
-    <bus label ="159" capacity="40" lambda="4"></bus>
-    <bus label ="151" capacity="35" lambda="5"></bus>
   </rout>  
 </routes>

@@ -114,6 +114,10 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 			int passenger_system_time = curent_time - bus_pussangers[i].come_time;
 			if (max_passenger_time < passenger_system_time)
 				max_passenger_time = passenger_system_time;
+			int passenger_waiting_time = bus_pussangers[i].bus_enter_time - bus_pussangers[i].come_time;
+			if (max_waiting_time < passenger_waiting_time)
+				max_waiting_time = passenger_waiting_time;
+
 
 
 			bus_pussangers.erase(bus_pussangers.begin() + i);

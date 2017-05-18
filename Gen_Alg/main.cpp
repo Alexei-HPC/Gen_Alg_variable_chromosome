@@ -1114,7 +1114,7 @@ int main(int argc, char* argv[])
 				SolutionFile<<"\nRoute: "<<routes.routes[k].rout_label<<", trips count: "<<routes.routes[k].buses.size()<<endl;
 				for(int t = 0; t < routes.routes[k].buses.size(); t++)
 				{
-					SolutionFile<<res_individ.chromosome[counter]<<" ";
+					SolutionFile<<res_individ.chromosome[counter]<<"\n";
 					counter++;
 				}
 				cout << "\n" << res_individ.max_waiting_time << "   " << res_individ.max_passenger_time << endl;
