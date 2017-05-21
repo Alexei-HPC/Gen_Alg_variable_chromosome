@@ -19,8 +19,6 @@ public:
 	int PrintPopulation(void);//Вывод генов каждого индивида популяции
 	int Selection(int truncation);//Отбор с усечением
 
-	int Getrandvalue(int min, int max);
-
 	~Population(void);
 };
 

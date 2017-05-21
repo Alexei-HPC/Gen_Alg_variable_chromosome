@@ -26,16 +26,19 @@ Population::Population(int pop_size, int ch_size, vector< pair <int, pair<int, i
 
 Population Population::Population_mod(int pop_size, int ch_size, vector<pair<int, pair<int, int>>> routs_gaps)
 {
+	int val;	
 	Population tmp_population(pop_size, ch_size, routs_gaps);//»нициализаци€ попул€ции
 	for (int i = 0; i < population_size; i++)//«амена старой попул€ции новой попул€цией
 	{
-		for (int j = 0; j < chromosome_size - 1; j++)
+		for (int j = 0; j < ch_size - 1; j++)
 		{
-			tmp_population.individuals[i].chromosome[j] = individuals[i].chromosome[j] * (ch_size - 1) / ch_size;
+			tmp_population.individuals[i].chromosome[j] = (individuals[i].chromosome[j] - routs_gaps[0].second.first) * (ch_size - 1) / ch_size + routs_gaps[0].second.first;
 		}
-//		tmp_population.individuals[i].chromosome[chromosome_size - 1] = Getrandvalue(routs_gaps[i].second.first, routs_gaps[i].second.second);
+		val = Individual::Getrandvalue(individuals[i].routs_gaps[0].second.first, individuals[i].routs_gaps[0].second.second);
+		tmp_population.individuals[i].chromosome[ch_size - 1] = val;
 	}
-	
+	this->~Population();
+	*this = tmp_population;
 	return tmp_population;
 }
 

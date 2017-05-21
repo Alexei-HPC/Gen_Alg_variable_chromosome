@@ -7,7 +7,7 @@ Individual::Individual(void)
 	fitness_value = 0;
 }
 
-int Getrandvalue(int min, int max)
+int Individual::Getrandvalue(int min, int max)
 {
 	int rnd_val = 0;
 	rnd_val = min + (int)floor((double(rand())/RAND_MAX)*(max - min + 1));

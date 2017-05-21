@@ -979,7 +979,7 @@ int main(int argc, char* argv[])
 	int ch_size = routes.ChromosomeSize();
 	parameters.chromosome_size = ch_size;
 
-	Population population(parameters.individ_number, ch_size, routs_gaps);//Инициализация популяции
+	Population population = Population(parameters.individ_number, ch_size, routs_gaps);//Инициализация популяции
 																		  //population.PrintPopulation();
 
 	if(proc_rank == 0)//Замер времени начала работы алгоритма
@@ -1005,17 +1005,8 @@ int main(int argc, char* argv[])
 
 	{
 		//место начала работы алгоритса с переменной длиной хромосомы
+		for (int iter_chr = 1; iter_chr <= 52; iter_chr++)//Шаги увеличения длины хромосомы
 		{
-
-
-
-
-
-
-
-
-
-
 			for (int iter = 1; iter <= 10; iter++)//Шаги генетического алгоритма
 			{
 
@@ -1035,7 +1026,7 @@ int main(int argc, char* argv[])
 					population.individuals[ind].fitness_value = FitnessFunktion(parameters, mindrivetime, minbcost, routes, population.individuals[ind], stops);
 					population.individuals[ind].max_passenger_time = max_passenger_time;
 					population.individuals[ind].max_waiting_time = max_waiting_time;
-					cout << "max_waiting_time/max_passenger_time:   " << max_waiting_time << "	" << max_passenger_time << endl;
+//							cout << "max_waiting_time/max_passenger_time:   " << max_waiting_time << "	" << max_passenger_time << endl;
 				}
 
 				/*Вывод данных в выходной файл*/
@@ -1073,6 +1064,58 @@ int main(int argc, char* argv[])
 			Individual res_individ(GetBestSol(population));
 			best_solutions.push_back(res_individ);
 
+			file_aver_ff.close();
+			//file_ff_by_ind.close();
+			cout<<"GA finished. Procrank: "<<proc_rank<<endl;
+			//Поиск лучшего решения
+			if(proc_rank == 0)
+			{
+				Individual res_individ(GetBestSol(population));
+				cout<<"Solution: "<<endl;
+				res_individ.PrintIndivid();
+				cout<<"Fitness function: "<<res_individ.fitness_value<<endl;
+
+				ofstream SolutionFile(parameters.uni_path + "Solution.txt");
+
+				//Выводим решение в файл
+				if(SolutionFile.is_open())//проверяем, открыт ли файл
+				{
+					finish_time = MPI_Wtime();
+					SolutionFile<<"Time: "<<finish_time - start_time<<endl;
+					cout<<"Bus routes count: "<<routes.routes.size();
+					int counter = 0;
+					for(int k = 0; k < routes.routes.size(); k++)
+					{
+						SolutionFile<<"\nRoute: "<<routes.routes[k].rout_label<<", trips count: "<<routes.routes[k].buses.size()<<endl;
+						for(int t = 0; t < routes.routes[k].buses.size(); t++)
+						{
+							SolutionFile<<res_individ.chromosome[counter]<<"\n";
+							counter++;
+						}
+//						cout << "\n" << res_individ.max_waiting_time << "   " << res_individ.max_passenger_time << endl;
+//						cout<<"\n";
+					}
+
+					//SolutionFile<<"Solution: "<<endl;
+					//for(int i = 0; i < res_individ.chromosome_size; i++ )
+					//{
+					//	SolutionFile<<res_individ.chromosome[i]<<'\t';
+					//}
+					//cout<<endl;
+					//cout<<endl;
+					SolutionFile<<"\nFitness function: "<<res_individ.fitness_value<<endl;
+					SolutionFile.close();
+				}
+				else
+				{
+					cout<<"Error! Failed to open a file for output solutions."<<endl;
+				}
+			}
+			else	//Главный узел ищет наилучшее решение на всех узлах
+			{
+				GetBestSol(population);
+			}
+
 			// Увеличение длины хромосомы
 			bus bs = routes.routes[routes.routes.size() - 1]
 				.buses[routes.routes[routes.routes.size() - 1].buses.size() - 1];
@@ -1086,61 +1129,15 @@ int main(int argc, char* argv[])
 			int ch_size = routes.ChromosomeSize();
 			parameters.chromosome_size = ch_size;
 			population.PrintPopulation();
-			population = population.Population_mod(parameters.individ_number, ch_size, routs_gaps);//Модификация популяции
-																				  population.PrintPopulation();
+
+
+			population.Population_mod(parameters.individ_number, ch_size, routs_gaps);//Модификация популяции
+																					  //			population.~Population();
+																					  //			population = tmp_population;
+																					  //																				  population.PrintPopulation();
 		}
 	}
-	file_aver_ff.close();
-	//file_ff_by_ind.close();
-	cout<<"GA finished. Procrank: "<<proc_rank<<endl;
-	//Поиск лучшего решения
-	if(proc_rank == 0)
-	{
-		Individual res_individ(GetBestSol(population));
-		cout<<"Solution: "<<endl;
-		res_individ.PrintIndivid();
-		cout<<"Fitness function: "<<res_individ.fitness_value<<endl;
 
-		ofstream SolutionFile(parameters.uni_path + "Solution.txt");
-
-		//Выводим решение в файл
-		if(SolutionFile.is_open())//проверяем, открыт ли файл
-		{
-			finish_time = MPI_Wtime();
-			SolutionFile<<"Time: "<<finish_time - start_time<<endl;
-			cout<<"Bus routes count: "<<routes.routes.size();
-			int counter = 0;
-			for(int k = 0; k < routes.routes.size(); k++)
-			{
-				SolutionFile<<"\nRoute: "<<routes.routes[k].rout_label<<", trips count: "<<routes.routes[k].buses.size()<<endl;
-				for(int t = 0; t < routes.routes[k].buses.size(); t++)
-				{
-					SolutionFile<<res_individ.chromosome[counter]<<"\n";
-					counter++;
-				}
-				cout << "\n" << res_individ.max_waiting_time << "   " << res_individ.max_passenger_time << endl;
-				cout<<"\n";
-			}
-
-			//SolutionFile<<"Solution: "<<endl;
-			//for(int i = 0; i < res_individ.chromosome_size; i++ )
-			//{
-			//	SolutionFile<<res_individ.chromosome[i]<<'\t';
-			//}
-			//cout<<endl;
-			//cout<<endl;
-			SolutionFile<<"\nFitness function: "<<res_individ.fitness_value<<endl;
-			SolutionFile.close();
-		}
-		else
-		{
-			cout<<"Error! Failed to open a file for output solutions."<<endl;
-		}
-	}
-	else	//Главный узел ищет наилучшее решение на всех узлах
-	{
-		GetBestSol(population);
-	}
 
 	if(proc_rank == 0)//Замер времени завершения работы алгоритма
 	{
