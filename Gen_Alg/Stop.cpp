@@ -89,8 +89,11 @@ Stop::Stop(unsigned long pbus_stop_label)
 //	return 0;
 //}
 
-int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int curent_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time, int &max_waiting_time)
+int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int curent_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time, int &max_waiting_time, vector< pair <int, int>> &avg_times, vector< pair <int, int>> &stop_density)
 {
+	int avg_time = -1;
+	pair <int, int> val;
+//	vector<int> avg_times1;
 	//cout<<"landLoadPassangers started"<<endl;
 	//ѕассажиры выход€т на нужной остановке
 	//for(int i = 0; i < bus_intentions.size(); i++)
@@ -102,7 +105,18 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 	//		i--;
 	//	}
 	//}
-
+/*
+	// ѕодсчЄт максимального времени ожидаи€
+	for (int p = 0; p < passangers.size(); p++)
+		if (avg_time < curent_time - passangers[p].come_time)
+	{
+		avg_time = curent_time - passangers[p].come_time;
+		// ƒобавление времени ожидани€ автобуса в текущий момент дн€
+		val.first = curent_time;
+		val.second = avg_time;
+		avg_times.push_back(val);
+	}
+	*/
 	//ѕассажиры выход€т на нужной остановке
 	for(int i = 0; i <  bus_pussangers.size(); i++)
 	{
@@ -116,21 +130,21 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 				max_passenger_time = passenger_system_time;
 			int passenger_waiting_time = bus_pussangers[i].bus_enter_time - bus_pussangers[i].come_time;
 			if (max_waiting_time < passenger_waiting_time)
-				max_waiting_time = passenger_waiting_time;
-
-
+				max_waiting_time = passenger_waiting_time;							
 
 			bus_pussangers.erase(bus_pussangers.begin() + i);
 			i--;
 		}
 	}
+
+	
 	//cout<<"Passangers were landed"<<endl;
 
 	if(free_places > 0)//≈сли есть свободные места в автобусе
 	{
 		bool flag= false;
 
-		Recalc(curent_time); //ѕересчет количества пассажиров на остановке
+		Recalc(curent_time, stop_density); //ѕересчет количества пассажиров на остановке
 
 		//ѕоиск отказавшихс€ от поездки пассажиров и их удаление с остановки
 		for(int p = 0; p < passangers.size(); p++)
@@ -139,13 +153,15 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 			{
 				
 				int passenger_waiting_time = curent_time - passangers[p].come_time;
-				if (max_waiting_time < passenger_waiting_time)
-					max_waiting_time = passenger_waiting_time;
+			if (max_waiting_time < passenger_waiting_time)
+				max_waiting_time = passenger_waiting_time;
 
 				bus.passangers_wt_fines += parameters.rm_restful*(parameters.wt_restful - parameters.wt_no_fine) + parameters.rm_upto_max*(parameters.wt_max - parameters.wt_restful) + parameters.f_refuse;
 				passangers.erase(passangers.begin() + p);
 				p--;
 			}
+
+			
 			
 		}
 
@@ -182,6 +198,16 @@ int Stop::landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions
 			pas.bus_stop_label = passangers[rnd_passanger].bus_stop_label;
 			pas.direction = passangers[rnd_passanger].direction;
 			pas.bus_enter_time = curent_time;
+
+			// ѕодсчЄт среднего времени ожидаи€
+//				if (avg_time < curent_time - pas.come_time)
+				{
+					avg_time = curent_time - pas.come_time;
+					// ƒобавление времени ожидани€ автобуса в текущий момент дн€
+					val.first = curent_time;
+					val.second = avg_time;
+					avg_times.push_back(val);
+				}
 
 			if(curent_time - pas.come_time > parameters.wt_no_fine)
 			{
@@ -402,7 +428,7 @@ int Stop::Print()
 //}
 
 
-int Stop::Recalc(int current_time) //ѕерерасчет количества пассажиров на текущей остановке
+int Stop::Recalc(int current_time, vector< pair <int, int>> &stop_density) //ѕерерасчет количества пассажиров на текущей остановке
 {
 	//cout<<"Recalc started"<<endl;
 	//переращет не нужен если переращет уже был произведен на более позднее врем€ либо равное текущему
@@ -430,7 +456,7 @@ int Stop::Recalc(int current_time) //ѕерерасчет количества пассажиров на текущей
 						pas.direction = vdensity[i].dir;;
 						pas.come_time = current_time;
 						passangers.push_back(pas);
-					
+						stop_density.push_back( pair <int, int>(current_time, passangers.size()));
 					}
 
 					//int pointer = -1;
@@ -468,7 +494,7 @@ int Stop::Recalc(int current_time) //ѕерерасчет количества пассажиров на текущей
 	return 0;
 }
 
-int Stop::RemainPassangers()	//¬озвращает количество пассажиров пришедших до конца дн€ после последнего автобуса
+int Stop::RemainPassangers(vector< pair <int, int>> stop_density)	//¬озвращает количество пассажиров пришедших до конца дн€ после последнего автобуса
 {
 	//ѕоиск последнего времени прибыти€ пассажира на остановку
 	int last_arrival_time = 0;
@@ -484,7 +510,7 @@ int Stop::RemainPassangers()	//¬озвращает количество пассажиров пришедших до кон
 	}
 
 	//ѕересчет количества пассажиров на остановке на последний момент времени
-	Recalc(last_arrival_time);
+	Recalc(last_arrival_time, stop_density);
 
 	return total_passangers;
 }

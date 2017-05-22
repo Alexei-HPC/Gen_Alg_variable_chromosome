@@ -37,9 +37,9 @@ public:
 	int time_of_last_rout; //¬рем€, когда приходил прошлый автобус
 	vector<dir_td> vdensity; //ѕары < направление вектов <врем€_плотность>>
 
-	int Recalc(int current_time); //ѕереращет количества пассажиров на текущей остановке
-	int landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int current_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time, int &max_waiting_time);	//¬ысадка и посадка пассажиров на остановке
-	int RemainPassangers(); //¬озвращает количество пассажиров пришедших до конца дн€ после последнего автобуса
+	int Recalc(int current_time, vector< pair <int, int>> &stop_density); //ѕереращет количества пассажиров на текущей остановке
+	int landLoadPassangers(/*vector <pair<unsigned long, int>> &bus_intentions*/ vector<Passanger> &bus_pussangers, int &free_places, int current_time, vector <unsigned long> bus_stops, Parameters_ parameters, Bus &bus, int &max_passenger_time, int &max_waiting_time, vector< pair <int, int>> &avg_times, vector< pair <int, int>> &stop_density);	//¬ысадка и посадка пассажиров на остановке
+	int RemainPassangers(vector< pair <int, int>> stop_density); //¬озвращает количество пассажиров пришедших до конца дн€ после последнего автобуса
 	int Print();	//¬ывод информации о остановке
 	Stop(void);
 	Stop(unsigned long pbus_stop_label);

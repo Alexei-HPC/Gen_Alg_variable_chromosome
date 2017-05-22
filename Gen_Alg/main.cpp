@@ -23,9 +23,13 @@ using namespace std;
 
 int com_size;
 int proc_rank;
-int max_chromosome_size = 111;
+int max_chromosome_size = 1;
 int max_passenger_time = 0;
 int max_waiting_time = 0;
+int max_abs_waiting_time = 0;
+
+vector< pair <int, int>> avg_times; //среднее время ожидания
+vector< pair <int, int>> stop_density; //среднее время ожидания
 
 //typedef struct //Параметры проведения экспериментов
 //{
@@ -771,7 +775,7 @@ int MakeEvent(Event ev, Buses &buses, vector <Stop> &stops, Parameters_ paramete
 					{
 					events_info<<"\tdir: "<<buses.buses[j].intentions[w].first<<" pas num: "<<buses.buses[j].intentions[w].second<<endl;
 					}*/
-					stops[i].landLoadPassangers(/*buses.buses[j].intentions*/ buses.buses[j].passangers, buses.buses[j].free_places, ev.time, buses.buses[j].bus_stops, parameters, buses.buses[j], max_passenger_time, max_waiting_time);//Выполняем процедуру высадки посадки пассажиров
+					stops[i].landLoadPassangers(/*buses.buses[j].intentions*/ buses.buses[j].passangers, buses.buses[j].free_places, ev.time, buses.buses[j].bus_stops, parameters, buses.buses[j], max_passenger_time, max_waiting_time, avg_times, stop_density);//Выполняем процедуру высадки посадки пассажиров
 					//events_info<<"bus intentions after. Free places: "<<buses.buses[j].free_places<<endl;
 					//for(int w = 0; w < buses.buses[j].intentions.size(); w++)
 					//{
@@ -827,7 +831,7 @@ int FindRemaindPassangers(vector <Stop> stops)
 
 	for(int i = 0; i < stops.size(); i++)
 	{
-		remain_passangers += stops[i].RemainPassangers();
+		remain_passangers += stops[i].RemainPassangers(stop_density);
 	}
 
 	return remain_passangers;
@@ -1004,7 +1008,8 @@ int main(int argc, char* argv[])
 	vector <Individual> best_solutions;
 	
 	//место начала работы алгоритса с переменной длиной хромосомы
-	for (int iter_chr = 1; iter_chr <= max_chromosome_size; iter_chr++)//Шаги увеличения длины хромосомы
+	//for (int iter_chr = 1; iter_chr <= max_chromosome_size; iter_chr++)//Шаги увеличения длины хромосомы
+	do
 	{
 		for (int iter = 1; iter <= parameters.genetic_alg_iterations; iter++)//Шаги генетического алгоритма
 		{
@@ -1025,6 +1030,7 @@ int main(int argc, char* argv[])
 				population.individuals[ind].fitness_value = FitnessFunktion(parameters, mindrivetime, minbcost, routes, population.individuals[ind], stops);
 				population.individuals[ind].max_passenger_time = max_passenger_time;
 				population.individuals[ind].max_waiting_time = max_waiting_time;
+				max_abs_waiting_time = max_waiting_time;
 //							cout << "max_waiting_time/max_passenger_time:   " << max_waiting_time << "	" << max_passenger_time << endl;
 			}
 
@@ -1070,14 +1076,23 @@ int main(int argc, char* argv[])
 		if(proc_rank == 0)
 		{
 			Individual res_individ(GetBestSol(population));
-			cout<<"Solution: "<<endl;
+/*			cout<<"Solution: "<<endl;
 			res_individ.PrintIndivid();
 			cout<<"Fitness function: "<<res_individ.fitness_value<<endl;
-
+*/			avg_times.clear();
+			res_individ.fitness_value = FitnessFunktion(parameters, mindrivetime, minbcost, routes, res_individ, stops);
+			/*
+			for (vector <pair <int, int>>::iterator avg_iter = avg_times.begin(); avg_iter <= avg_times.end(); avg_iter++)
+				cout << "Day time: " << avg_iter->first << " Waiting time: " << avg_iter->second << endl;
+*/
 			ofstream SolutionFile(parameters.uni_path + "Solution.txt");
+			ofstream SolutionFile1(parameters.uni_path + "Solution1.txt");
+			ofstream SolutionFile2(parameters.uni_path + "Solution2.txt");
+			ofstream SolutionFile3(parameters.uni_path + "Solution3.txt");
+			ofstream SolutionFile4(parameters.uni_path + "Solution4.txt");
 
 			//Выводим решение в файл
-			if(SolutionFile.is_open())//проверяем, открыт ли файл
+			if(SolutionFile.is_open() && SolutionFile1.is_open() && SolutionFile2.is_open() && SolutionFile3.is_open() && SolutionFile4.is_open())//проверяем, открыт ли файл
 			{
 				finish_time = MPI_Wtime();
 				SolutionFile<<"Time: "<<finish_time - start_time<<endl;
@@ -1103,7 +1118,23 @@ int main(int argc, char* argv[])
 				//cout<<endl;
 				//cout<<endl;
 				SolutionFile<<"\nFitness function: "<<res_individ.fitness_value<<endl;
+				for (vector <pair <int, int>>::iterator avg_iter = avg_times.begin(); avg_iter <= avg_times.end(); avg_iter++)
+				{
+					SolutionFile1 << avg_iter->first << endl;
+					SolutionFile2 << avg_iter->second << endl;
+				}
+
+				for (vector <pair <int, int>>::iterator stop_iter = stop_density.begin(); stop_iter <= stop_density.end(); stop_iter++)
+				{
+					SolutionFile3 << stop_iter->first << endl;
+					SolutionFile4 << stop_iter->second << endl;
+				}
+				
 				SolutionFile.close();
+				SolutionFile1.close();
+				SolutionFile2.close();
+				SolutionFile3.close();
+				SolutionFile4.close();
 			}
 			else
 			{
@@ -1127,15 +1158,16 @@ int main(int argc, char* argv[])
 
 		int ch_size = routes.ChromosomeSize();
 		parameters.chromosome_size = ch_size;
-		population.PrintPopulation();
+//		population.PrintPopulation();
 
 
 		population.Population_mod(parameters.individ_number, ch_size, routs_gaps);//Модификация популяции
 																					//			population.~Population();
 																					//			population = tmp_population;
-																					//																				  population.PrintPopulation();
+		cout << "\n" << "max_abs_waiting_time: " << max_abs_waiting_time << endl;
+		//																				  population.PrintPopulation();
 	}
-
+	while (0);
 
 
 	if(proc_rank == 0)//Замер времени завершения работы алгоритма
