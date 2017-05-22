@@ -1070,8 +1070,7 @@ int main(int argc, char* argv[])
 			}
 
 			// Запись лучшего решения в статистическую таблицу решений
-			Individual res_individ(GetBestSol(population));
-			best_solutions.push_back(res_individ);
+			best_solutions.push_back(GetBestSol(population));
 
 			// Увеличение длины хромосомы
 			bus bs = routes.routes[routes.routes.size() - 1]
@@ -1086,7 +1085,7 @@ int main(int argc, char* argv[])
 			int ch_size = routes.ChromosomeSize();
 			parameters.chromosome_size = ch_size;
 			population.PrintPopulation();
-			population = population.Population_mod(parameters.individ_number, ch_size, routs_gaps);//Модификация популяции
+			population.Population_mod(parameters.individ_number, ch_size, routs_gaps);//Модификация популяции
 																				  population.PrintPopulation();
 		}
 	}

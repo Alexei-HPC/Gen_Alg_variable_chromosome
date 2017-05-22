@@ -1,4 +1,4 @@
-Time: 0.856237
+Time: 3435.21
 
 Route: 1, trips count: 11
 980
@@ -10,7 +10,7 @@ Route: 1, trips count: 11
 319
 1158
 471
-733
-726
+1062
+1909663832
 
 Fitness function: 0

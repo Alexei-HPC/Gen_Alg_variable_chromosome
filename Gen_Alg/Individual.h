@@ -27,6 +27,8 @@ public:
 	Individual(int chromosome_size, vector< pair <int, pair<int, int>>> gaps);
 	int PrintIndivid(void);//Вывод генов индивида
 	int Mutation(double probability, int mut_number);//Мутация
+	static int Getrandvalue(int min, int max);
+
 	~Individual(void);
 };
 

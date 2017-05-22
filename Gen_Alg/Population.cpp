@@ -24,19 +24,30 @@ Population::Population(int pop_size, int ch_size, vector< pair <int, pair<int, i
 	}
 }
 
-Population Population::Population_mod(int pop_size, int ch_size, vector<pair<int, pair<int, int>>> routs_gaps)
+int Population::Population_mod(int pop_size, int ch_size, vector<pair<int, pair<int, int>>> routs_gaps)
 {
-	Population tmp_population(pop_size, ch_size, routs_gaps);//»нициализаци€ попул€ции
+	chromosome_size = ch_size;
 	for (int i = 0; i < population_size; i++)//«амена старой попул€ции новой попул€цией
 	{
+		individuals[i].chromosome_size = ch_size;
+		int * tmp_chromosome = new int[chromosome_size];
+
 		for (int j = 0; j < chromosome_size - 1; j++)
 		{
-			tmp_population.individuals[i].chromosome[j] = individuals[i].chromosome[j] * (ch_size - 1) / ch_size;
+			tmp_chromosome[j] = individuals[i].chromosome[j] * (ch_size - 1) / ch_size;
+			individuals[i].fitness_value = 0;
 		}
-//		tmp_population.individuals[i].chromosome[chromosome_size - 1] = Getrandvalue(routs_gaps[i].second.first, routs_gaps[i].second.second);
+		int val = Individual::Getrandvalue(routs_gaps[i].second.first, routs_gaps[i].second.second);
+
+		
+		//tmp_chromosome[chromosome_size - 1] = val;
+		/*
+		delete[] individuals[i].chromosome;
+		individuals[i].chromosome = tmp_chromosome;*/
+
 	}
 	
-	return tmp_population;
+	return 0;
 }
 
 int Population::Mutation(double probability, int mut_number)
