@@ -32,7 +32,7 @@ Population Population::Population_mod(int pop_size, int ch_size, vector<pair<int
 	{
 		for (int j = 0; j < ch_size - 1; j++)
 		{
-			tmp_population.individuals[i].chromosome[j] = (individuals[i].chromosome[j] - routs_gaps[0].second.first) * (ch_size - 1) / ch_size + routs_gaps[0].second.first;
+			tmp_population.individuals[i].chromosome[j] = Individual::Getrandvalue(individuals[i].routs_gaps[0].second.first, individuals[i].routs_gaps[0].second.second);
 		}
 		val = Individual::Getrandvalue(individuals[i].routs_gaps[0].second.first, individuals[i].routs_gaps[0].second.second);
 		tmp_population.individuals[i].chromosome[ch_size - 1] = val;

@@ -2,6 +2,6 @@
   <rout label="1" max_interval ="60">
     <gap>330,1440</gap>
     <stops>27,21,19,11,14,15,7,3,1</stops>
-    <bus label ="0" capacity="25" lambda="1"></bus>
+    <bus label ="0" capacity="40" lambda="2"></bus>
   </rout>  
 </routes>
